@@ -27,40 +27,34 @@ class MissCannibals(Problem):
         """Return list of legal actions in the given state"""
         possible_actions: list[str] = ["CC", "MM", "CM", "C", "M"]
 
-        M_left, C_left, on_left = state
-        M_right = self.M - M_left
-        C_right  = self.C - C_left
+        m_left, c_left, on_left = state
+        m_right = self.M - m_left
+        c_right  = self.C - c_left
 
         # funct that simlates each action in the list and determines if it is legal
         def is_legal(action: str) -> bool:
             """Will be mapped to each element in the set. Simulates each action.
             Returns true if legal. Returns false otherwise."""
 
-            m_left, m_right, c_left, c_right = M_left, M_right, C_left, C_right
             direction = -1 if on_left else 1
+            m_moves = action.count("M")
+            c_moves = action.count("C")
 
-            m_left += direction * action.count("M")
-            m_right -= direction * action.count("M")
+            new_m_left = m_left + direction * m_moves
+            new_m_right = m_right - direction * m_moves
+            new_c_left = c_left + direction * c_moves
+            new_c_right = c_right - direction * c_moves
 
-            c_left += direction * action.count("C")
-            c_right -= direction * action.count("C")
-
-            if all(3 >= x >= 0 for x in [m_left, m_right, c_left, c_right]):
-                if (m_left >= c_left) or (c_left == 0) or (m_left == 0):
-                    if (m_right >= c_right) or (c_right == 0) or (m_right == 0):
-                        return True
+            if all(3 >= x >= 0 for x in [new_m_left, new_m_right, new_c_left, new_c_right]):
+                return (new_m_left >= new_c_left or new_c_left == 0 or new_m_left == 0) and \
+                        (new_m_right >= new_c_right or new_c_left == 0 or new_m_right == 0)
             return False
 
-        possible_actions_set = set(possible_actions)
+        legal_actions = [action for action in possible_actions if is_legal(action)]
 
-        for action in possible_actions:
-            if not is_legal(action):
-                possible_actions_set.discard(action)
+        # print(f"state: {state}\tpossible actions: {legal_actions}")
 
-        result = list(possible_actions_set)
-        # print(f"state: {state}\tpossible actions: {result}")
-
-        return result
+        return legal_actions
 
         
     def result(self, state: tuple[int, int, bool], action: str) -> tuple[int, int, bool]:
