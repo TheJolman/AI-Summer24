@@ -63,7 +63,6 @@ class MissCannibals(Problem):
         given action in the given state. Action must be one
         of self.actions(state)"""
         
-        m, c, on_left = state
         m: int = state[0]
         c: int = state[1]
         on_left: bool = state[2]
