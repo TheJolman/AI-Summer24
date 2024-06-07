@@ -1,6 +1,4 @@
-# from os import walk
 from search import *
-# from typing import Tuple, Set
 
 class MissCannibals(Problem):
     """Uses generic class `Problem` from search.py
@@ -59,7 +57,10 @@ class MissCannibals(Problem):
             if not is_legal(action):
                 possible_actions_set.discard(action)
 
-        return list(possible_actions_set)
+        result = list(possible_actions_set)
+        # print(f"state: {state}\tpossible actions: {result}")
+
+        return result
 
         
     def result(self, state: tuple[int, int, bool], action: str) -> tuple[int, int, bool]:
