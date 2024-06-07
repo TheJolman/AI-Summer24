@@ -25,7 +25,7 @@ class MissCannibals(Problem):
         super().__init__(initial, goal)
 
     # Methods: actions, result, path_cost, value
-    def actions(self, state: tuple[int, int, bool]) -> set[str]:
+    def actions(self, state: tuple[int, int, bool]) -> list[str]:
         """Return list of legal actions in the given state"""
         possible_actions: set[str] = {"CC", "MM", "CM", "C", "M"}
 
@@ -47,17 +47,21 @@ class MissCannibals(Problem):
             c_left += direction * action.count("C")
             c_right -= direction * action.count("C")
 
+            print(f"action: {action}, ")
+
             if all(x >= 0 for x in [m_left, m_right, c_left, c_right]):
                 if (m_left >= c_left) or (c_left == 0):
                     if (m_right >= c_right) or (c_right == 0):
                         return True
             return False
 
+        possible_actions_copy = possible_actions.copy()
+
         for action in possible_actions:
             if not is_legal(action):
-                possible_actions.discard(action)
+                possible_actions_copy.discard(action)
 
-        return possible_actions
+        return list(possible_actions_copy)
 
         
     def result(self, state: tuple[int, int, bool], action: str) -> tuple[int, int, bool]:
@@ -70,7 +74,7 @@ class MissCannibals(Problem):
         direction = -1 if on_left else 1
 
         M += direction * action.count("M")
-        M += direction * action.count("C")
+        C += direction * action.count("C")
 
         return (M, C, on_left)
             
@@ -85,7 +89,11 @@ if __name__ == "__main__":
     # tests
     # should return ['CC', 'C', 'M']
 
-    path = depth_first_graph_search(mc).solution()
+    result = depth_first_graph_search(mc)
+    path = result.solution() if result is not None else None
     print(path)
-    path = breadth_first_graph_search(mc).solution()
+
+    result = breadth_first_graph_search(mc)
+
+    path = result.solution() if result is not None else None
     print(path)
