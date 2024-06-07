@@ -47,11 +47,9 @@ class MissCannibals(Problem):
             c_left += direction * action.count("C")
             c_right -= direction * action.count("C")
 
-            print(f"action: {action}, ")
-
-            if all(x >= 0 for x in [m_left, m_right, c_left, c_right]):
-                if (m_left >= c_left) or (c_left == 0):
-                    if (m_right >= c_right) or (c_right == 0):
+            if all(3 >= x >= 0 for x in [m_left, m_right, c_left, c_right]):
+                if (m_left >= c_left) or (c_left == 0) or (m_left == 0):
+                    if (m_right >= c_right) or (c_right == 0) or (m_right == 0):
                         return True
             return False
 
@@ -61,6 +59,7 @@ class MissCannibals(Problem):
             if not is_legal(action):
                 possible_actions_copy.discard(action)
 
+        print(possible_actions_copy)
         return list(possible_actions_copy)
 
         
@@ -75,6 +74,8 @@ class MissCannibals(Problem):
 
         M += direction * action.count("M")
         C += direction * action.count("C")
+
+        on_left = not on_left
 
         return (M, C, on_left)
             
