@@ -31,8 +31,8 @@ class MissCannibals(Problem):
         m_right = self.M - m_left
         c_right  = self.C - c_left
 
-        # funct that simlates each action in the list and determines if it is legal
-        def is_legal(action: str) -> bool:
+
+        def is_legal(action: str)-> bool:
             """Will be mapped to each element in the set. Simulates each action.
             Returns true if legal. Returns false otherwise."""
 
@@ -40,15 +40,16 @@ class MissCannibals(Problem):
             m_moves = action.count("M")
             c_moves = action.count("C")
 
-            new_m_left = m_left + direction * m_moves
+            new_m_left  = m_left  + direction * m_moves
             new_m_right = m_right - direction * m_moves
-            new_c_left = c_left + direction * c_moves
+            new_c_left  = c_left  + direction * c_moves
             new_c_right = c_right - direction * c_moves
 
             if all(3 >= x >= 0 for x in [new_m_left, new_m_right, new_c_left, new_c_right]):
                 return (new_m_left >= new_c_left or new_c_left == 0 or new_m_left == 0) and \
                         (new_m_right >= new_c_right or new_c_left == 0 or new_m_right == 0)
             return False
+
 
         legal_actions = [action for action in possible_actions if is_legal(action)]
 
@@ -62,15 +63,24 @@ class MissCannibals(Problem):
         given action in the given state. Action must be one
         of self.actions(state)"""
         
-        M, C, on_left = state
+        m, c, on_left = state
+        m: int = state[0]
+        c: int = state[1]
+        on_left: bool = state[2]
+
+        print(f"state before: {state}", end="\t")
+
         direction = -1 if on_left else 1
 
-        M += direction * action.count("M")
-        C += direction * action.count("C")
-
+        m += direction * action.count("M")
+        c += direction * action.count("C")
         on_left = not on_left
 
-        return (M, C, on_left)
+        result = (m, c, on_left)
+
+        print(f"Action done: {action}\t state after: {result}")
+
+        return result
             
 
     def goal_test(self, state):
