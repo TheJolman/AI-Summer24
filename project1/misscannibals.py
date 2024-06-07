@@ -27,7 +27,7 @@ class MissCannibals(Problem):
     # Methods: actions, result, path_cost, value
     def actions(self, state: tuple[int, int, bool]) -> list[str]:
         """Return list of legal actions in the given state"""
-        possible_actions: set[str] = {"CC", "MM", "CM", "C", "M"}
+        possible_actions: list[str] = ["CC", "MM", "CM", "C", "M"]
 
         M_left, C_left, on_left = state
         M_right = self.M - M_left
@@ -53,14 +53,13 @@ class MissCannibals(Problem):
                         return True
             return False
 
-        possible_actions_copy = possible_actions.copy()
+        possible_actions_set = set(possible_actions)
 
         for action in possible_actions:
             if not is_legal(action):
-                possible_actions_copy.discard(action)
+                possible_actions_set.discard(action)
 
-        print(possible_actions_copy)
-        return list(possible_actions_copy)
+        return list(possible_actions_set)
 
         
     def result(self, state: tuple[int, int, bool], action: str) -> tuple[int, int, bool]:
@@ -69,7 +68,6 @@ class MissCannibals(Problem):
         of self.actions(state)"""
         
         M, C, on_left = state
-
         direction = -1 if on_left else 1
 
         M += direction * action.count("M")
@@ -96,7 +94,6 @@ if __name__ == "__main__":
         print(path)
 
     result = breadth_first_graph_search(mc)
-
     if result is not None:
         path = result.solution()
         print(path)
