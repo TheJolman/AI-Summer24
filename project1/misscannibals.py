@@ -91,10 +91,12 @@ if __name__ == "__main__":
     # should return ['CC', 'C', 'M']
 
     result = depth_first_graph_search(mc)
-    path = result.solution() if result is not None else None
-    print(path)
+    if result is not None:
+        path = result.solution()
+        print(path)
 
     result = breadth_first_graph_search(mc)
 
-    path = result.solution() if result is not None else None
-    print(path)
+    if result is not None:
+        path = result.solution()
+        print(path)
