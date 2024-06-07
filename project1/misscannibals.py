@@ -45,7 +45,7 @@ class MissCannibals(Problem):
             new_c_left  = c_left  + direction * c_moves
             new_c_right = c_right - direction * c_moves
 
-            if all(3 >= x >= 0 for x in [new_m_left, new_m_right, new_c_left, new_c_right]):
+            if all(3 >= people >= 0 for people in [new_m_left, new_m_right, new_c_left, new_c_right]):
                 return (new_m_left >= new_c_left or new_c_left == 0 or new_m_left == 0) and \
                         (new_m_right >= new_c_right or new_c_left == 0 or new_m_right == 0)
             return False
@@ -63,11 +63,9 @@ class MissCannibals(Problem):
         given action in the given state. Action must be one
         of self.actions(state)"""
         
-        m: int = state[0]
-        c: int = state[1]
-        on_left: bool = state[2]
+        m, c, on_left = state
 
-        print(f"state before: {state}", end="\t")
+        # print(f"state before: {state}", end="\t")
 
         direction = -1 if on_left else 1
 
@@ -77,7 +75,7 @@ class MissCannibals(Problem):
 
         result = (m, c, on_left)
 
-        print(f"Action done: {action}\t state after: {result}")
+        # print(f"Action done: {action}\t state after: {result}")
 
         return result
             
