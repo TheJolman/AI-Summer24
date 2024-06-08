@@ -25,11 +25,11 @@ class MissCannibals(Problem):
     # Methods: actions, result, path_cost, value
     def actions(self, state: tuple[int, int, bool]) -> list[str]:
         """Return list of legal actions in the given state"""
-        possible_actions: list[str] = ["CC", "MM", "CM", "C", "M"]
+        possible_actions: list[str] = ["CC", "MM", "MC", "C", "M"]
 
         m_left, c_left, on_left = state
         m_right = self.M - m_left
-        c_right  = self.C - c_left
+        c_right = self.C - c_left
 
 
         def is_legal(action: str)-> bool:
@@ -79,9 +79,8 @@ class MissCannibals(Problem):
 
         return result
             
-
     def goal_test(self, state):
-        super().goal_test(state)
+        return super().goal_test(state)
 
 
 if __name__ == "__main__":
